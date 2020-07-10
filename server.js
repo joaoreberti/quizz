@@ -28,7 +28,7 @@ initializePassport(
 const app = express();
 
 app.use(flash());
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(cors({ credentials: true, origin: ["http://localhost:3000", "http://joaoreberti.tech:5000/signup"] }));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
