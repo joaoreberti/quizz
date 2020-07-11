@@ -15,7 +15,10 @@ initializePassport(
   passport,
   (username) => {
     return db.User.findAll({ where: { username: username } }).then(
-      (result) => result[0]["dataValues"]
+      (result) => {
+        console.log(result)
+      return  result[0]["dataValues"]
+      }
     );
   },
   (id) => {

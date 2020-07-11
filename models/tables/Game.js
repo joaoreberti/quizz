@@ -11,6 +11,8 @@ module.exports = function (sequelize, DataTypes) {
       winner: { type: DataTypes.STRING },
       points: { type: DataTypes.STRING },
       active : { type: DataTypes.BOOLEAN },
+      name : {        allowNull: false, type: DataTypes.STRING },
+
     },
     {
       timestamps: false,

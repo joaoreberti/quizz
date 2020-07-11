@@ -12,19 +12,29 @@ router.post('/', isAuthenticated, async (req,res)=>{
     );
     const currentGames = await db.Session.findAll({ where: { users_id: req.session.passport.user } }).then(
       (result) =>{
-        if(result.session == undefined){
+
+        if(result[0] == undefined){
           return []
         }
-        
+
         return result[0]["dataValues"]
       }
       );
 
+      if(currentGames.game_session_id !== undefined){
+        const game = await db.Game.findAll({ where: {id : currentGames['game_session_id']    } }).then(result => {
+          return result[0]["dataValues"]
+        } )
+
+        userProfile.game = game
+
+      }
       
 
 
       delete userProfile.password
-      
+      userProfile.currentGames = currentGames
+
   
   
 /*       console.log('babanas: ',req.session.passport)

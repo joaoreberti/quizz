@@ -54,7 +54,7 @@ const Signup = () => {
       console.log(data);
     });
   };
-  const getNewAvatar = () => {
+  const getNewAvatar = (event) => {
     setAvatarUrl(`https://api.adorable.io/avatars/face/${randomNumber(1000)}`);
   };
 
