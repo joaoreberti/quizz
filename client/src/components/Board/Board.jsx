@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import io from "socket.io-client";
+
 
 const Board = () => {
   let history = useHistory();
+  const [socket, setSocket] = useState(null);
   const [newGame, setNewGame] = useState(false);
   const [gameNameInput, setGameNameInput] = useState("");
   const [findGameInput, setFindGameInput] = useState("");
@@ -17,6 +20,33 @@ const Board = () => {
       setFindGameInput(newFindGame);
     }
   };
+
+useEffect(() => {
+  fetch("http://localhost:3051/join", {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    method: "POST",
+    credentials: "include",
+
+    body: JSON.stringify({
+      gameName: gameNameInput,
+    }),
+  }).then((data) => {
+    if (data.status === 405) {
+      alert("That username already exists. Please choose another one");
+    }
+    if (data.status === 200) {
+  setSocket(io('http://localhost:3052'))    
+/*   setNewGame(true)
+ */    }
+    console.log(data);
+  });  ;
+
+  return () => {
+  };
+}, [])
 
   const createNewRoom = (event) => {
     event.preventDefault();
@@ -37,6 +67,7 @@ const Board = () => {
       }
       if (data.status === 200) {
         console.log("game created with success");
+        setNewGame(true)
       }
       console.log(data);
     });
@@ -44,7 +75,7 @@ const Board = () => {
 
   return (
     <>
-      <div>
+      {!newGame && <div>
         <form>
           <label for="gameNameInput">New room</label>
           <input
@@ -64,7 +95,11 @@ const Board = () => {
           />
           <button>Find</button>
         </form>
-      </div>
+      </div>}
+      {newGame && 
+      <div>
+          <div>New game created</div>
+        </div>}
     </>
   );
 };
