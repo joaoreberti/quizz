@@ -1,5 +1,3 @@
-const { authenticate } = require("passport");
-
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 
@@ -25,8 +23,6 @@ function initialize(passport, getUserByUserName, getUserByid) {
     done(null, user.id);
   });
   passport.deserializeUser((id, done) => {
-/*     console.log("deserializeUser", id);
- */
     done(null, getUserByid(id));
   });
 }

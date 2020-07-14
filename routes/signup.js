@@ -7,7 +7,7 @@ module.exports = (jsonParser, urlencoded) => {
 
   router.post("/", jsonParser, urlencoded, async (req, res) => {
     console.log(req.body);
-    
+
     try {
       const hashedPass = await bcrypt.hash(req.body.password, 10);
       console.log(hashedPass);
@@ -17,8 +17,8 @@ module.exports = (jsonParser, urlencoded) => {
         password: hashedPass,
       })
         .then((result) => {
-          console.log(result)
-          return res.sendStatus(200)
+          console.log(result);
+          return res.sendStatus(200);
         })
         .catch((err) => {
           console.error("aqui começa o erro:\n", err.errors[0].message);

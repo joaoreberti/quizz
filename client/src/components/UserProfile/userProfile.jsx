@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 const UserProfile = (props) => {
-  let history = useHistory()
+  let history = useHistory();
   const [sessionsList, setSessionsList] = useState(null);
-  const [matchHistory, setMatchHistory] = useState(null)
+  const [matchHistory, setMatchHistory] = useState(null);
   const [username, setUsername] = useState(null);
   const [avatar_url, setAvatar_url] = useState(null);
 
@@ -18,28 +18,30 @@ const UserProfile = (props) => {
         console.log(data);
         setUsername(data.username);
         setAvatar_url(data.avatar_url);
-        setSessionsList(data.currentGames)
-        setMatchHistory(data.game)
-
+        setSessionsList(data.currentGames);
+        setMatchHistory(data.game);
       });
 
     return () => {};
   }, []);
-
 
   const logout = (event) => {
     event.preventDefault();
     fetch("http://localhost:3051/logout", {
       method: "POST",
       credentials: "include",
-    })
-      .then((data) => {
-        if(data.status === 200){
-          console.log('successfully')
-          history.push('/')
-        }
-      });
-  }
+    }).then((data) => {
+      if (data.status === 200) {
+        console.log("successfully");
+        history.push("/");
+      }
+    });
+  };
+
+  const newGameSession = (event) => {
+    event.preventDefault();
+    history.push("/board");
+  };
 
   return (
     <div>
@@ -52,6 +54,7 @@ const UserProfile = (props) => {
         <div>{matchHistory ? matchHistory.active : "não"}</div>
       </div>
       <button onClick={logout}>Log out</button>
+      <button onClick={newGameSession}>Join or Create New Game</button>
     </div>
   );
 };

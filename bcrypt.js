@@ -1,3 +1,3 @@
-const db = require('./models/index')
+const db = require("./models/index");
 
-db.Session.sync()
+db.User.sync();

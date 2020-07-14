@@ -29,12 +29,12 @@ const LandingPage = (props) => {
       credentials: "include",
 
       body: JSON.stringify({ username: username, password: password }),
-    }).then((data) => {
-        if(data) {
+    })
+      .then((data) => {
+        if (data) {
           props.handleLogin(event);
           history.push("/profile");
-          }
-
+        }
       })
       .catch((err) => {
         setTryAgain(true);

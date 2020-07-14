@@ -10,15 +10,13 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 function App() {
   const [user, setUser] = useState(false);
-  const [loading, setLoading] = useState(true)
-  
+  const [loading, setLoading] = useState(true);
+
   const handleLogin = () => {
-    setUser(true)
-  }
-  
+    setUser(true);
+  };
 
   useEffect(() => {
-
     fetch("http://localhost:3051/", {
       method: "POST",
       credentials: "include",
@@ -26,18 +24,14 @@ function App() {
       if (result.status === 200) {
         console.log("You are logged in ");
         setUser(true);
-        setLoading(false)
-
-      }else{
-        setLoading(false)
+        setLoading(false);
+      } else {
+        setLoading(false);
         setUser(false);
-
       }
     });
     return () => {};
-  }, [user,loading]);
-
-
+  }, [user, loading]);
 
   return (
     <div className="App">
@@ -46,29 +40,34 @@ function App() {
           exact
           path="/"
           render={(props) => (
-            <LandingPage {...props} handleLogin = {handleLogin} user={user}  />
+            <LandingPage {...props} handleLogin={handleLogin} user={user} />
           )}
         />
-        {loading && <div>Is loadin </div> }
+        {loading && <div>Is loadin </div>}
 
-        {loading ? "" :  <ProtectedRoute
-          exact
-          path="/board"
-          user={user}
-          component={Board}
-        /> }
-       
+        {loading ? (
+          ""
+        ) : (
+          <ProtectedRoute exact path="/board" user={user} component={Board} />
+        )}
 
         <Route exact path="/signup" component={Signup} />
-       {loading ? "" :  <ProtectedRoute
-          exact
-          path="/profile"
-          user={user}
-          component={UserProfile}
-        /> }
-       
-          {loading ? "" :         <Route exact path="/unauthorized" component={Unauthorized} />
- }
+        {loading ? (
+          ""
+        ) : (
+          <ProtectedRoute
+            exact
+            path="/profile"
+            user={user}
+            component={UserProfile}
+          />
+        )}
+
+        {loading ? (
+          ""
+        ) : (
+          <Route exact path="/unauthorized" component={Unauthorized} />
+        )}
       </Router>
     </div>
   );
