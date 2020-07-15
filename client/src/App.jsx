@@ -5,6 +5,7 @@ import Signup from "./components/LandingPage/Signup";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import UserProfile from "./components/UserProfile/userProfile";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
+import Lobby from "./components/Lobby/Lobby";
 import Board from "./components/Board/Board";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
@@ -45,6 +46,11 @@ function App() {
         />
         {loading && <div>Is loadin </div>}
 
+        {loading ? (
+          ""
+        ) : (
+          <ProtectedRoute exact path="/lobby" user={user} component={Lobby} />
+        )}
         {loading ? (
           ""
         ) : (

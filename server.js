@@ -61,14 +61,14 @@ const profileRouter = require("./routes/profile.js")(jsonParser, urlencoded);
 
 const createRouter = require("./routes/create.js")(jsonParser, urlencoded);
 
-/* const joinGameSession = require('./routes/join_game_session')(jsonParser, urlencoded)
- */
+const joinGameSession = require('./routes/join_game_session')(jsonParser, urlencoded)
+
 app.use("/signup", signupRouter);
 
 app.use("/login", loginRouter);
 app.use("/logout", logoutRouter);
-/* app.use('/join', joinGameSession)
- */
+app.use('/join', joinGameSession)
+
 app.use("/profile", profileRouter);
 app.use("/create", createRouter);
 
@@ -80,11 +80,7 @@ app.listen(3051, () => {
   console.log("listening on port 3051");
 });
 
-var io = require("socket.io")(3052);
 
-io.on("connection", (socket) => {
-  console.log("a user connected");
-});
 
 /* const tryConnection =async () => {
     const users = await db.User.findAll({where: {username: 'tsubasa'}});

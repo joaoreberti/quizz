@@ -40,7 +40,7 @@ const UserProfile = (props) => {
 
   const newGameSession = (event) => {
     event.preventDefault();
-    history.push("/board");
+    history.push("/lobby");
   };
 
   return (
