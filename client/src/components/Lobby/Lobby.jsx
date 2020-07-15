@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import io from "socket.io-client";
 
-const Loby = () => {
+const Loby = (props) => {
   let history = useHistory();
   const [socket, setSocket] = useState(null);
   const [newGame, setNewGame] = useState(false);
@@ -21,8 +21,13 @@ const Loby = () => {
   };
 
   useEffect(() => {
-    return () => {};
-  }, []);
+    if(socket){
+      props.getSocket(socket)
+    }
+    return () => {
+     
+    };
+  }, [socket]);
 
   const createNewRoom = (event) => {
     event.preventDefault();
@@ -60,6 +65,7 @@ const Loby = () => {
           }
           if (data.status === 200) {
             setSocket(io.connect("http://localhost:3052"));
+
             history.push("/board");
           }
           console.log(data);
