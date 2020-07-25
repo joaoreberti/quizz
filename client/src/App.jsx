@@ -12,15 +12,19 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 function App() {
   const [user, setUser] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [socket, setSocket] = useState(null)
+  const [socket, setSocket] = useState(null);
+  const [roomName, setRoomName] = useState(null);
 
   const handleLogin = () => {
     setUser(true);
   };
-  const getSocket =(socket)=> {
-    setSocket(socket)
-  }
+  const getSocket = (socket) => {
+    setSocket(socket);
+  };
 
+  const getRoomName = (NameOfTheRoom) => {
+    setRoomName(NameOfTheRoom);
+  };
 
   useEffect(() => {
     fetch("http://localhost:3051/", {
@@ -54,12 +58,26 @@ function App() {
         {loading ? (
           ""
         ) : (
-          <ProtectedRoute exact path="/lobby" user={user} getSocket={getSocket} component={Lobby} />
+          <ProtectedRoute
+            exact
+            path="/lobby"
+            user={user}
+            getRoomName={getRoomName}
+            getSocket={getSocket}
+            component={Lobby}
+          />
         )}
         {loading ? (
           ""
         ) : (
-          <ProtectedRoute exact path="/board" user={user} socket={socket} component={Board} />
+          <ProtectedRoute
+            exact
+            path="/board"
+            user={user}
+            roomName={roomName}
+            socket={socket}
+            component={Board}
+          />
         )}
 
         <Route exact path="/signup" component={Signup} />

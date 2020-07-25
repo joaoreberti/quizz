@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import io from "socket.io-client";
 
-const Board = ({socket}) => {
-  const [roomName, setRoomName] = useState(null);
+const Board = ({ socket, roomName }) => {
   useEffect(() => {
-    socket.on('connect', () => {
+    socket.on("connect", () => {
       console.log(socket.connected); // true
-      socket.emit("joinRoom", 'room-1');
-
+      socket.emit("joinRoom", roomName);
+      socket.on("test log", (msg) => console.log(msg));
     });
 
     return () => {};

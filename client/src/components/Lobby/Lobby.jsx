@@ -21,12 +21,10 @@ const Loby = (props) => {
   };
 
   useEffect(() => {
-    if(socket){
-      props.getSocket(socket)
+    if (socket) {
+      props.getSocket(socket);
     }
-    return () => {
-     
-    };
+    return () => {};
   }, [socket]);
 
   const createNewRoom = (event) => {
@@ -65,7 +63,6 @@ const Loby = (props) => {
           }
           if (data.status === 200) {
             setSocket(io.connect("http://localhost:3052"));
-
             history.push("/board");
           }
           console.log(data);
@@ -93,6 +90,7 @@ const Loby = (props) => {
         alert("That username already exists. Please choose another one");
       }
       if (data.status === 200) {
+        props.getRoomName(findGameInput);
         setSocket(io.connect("http://localhost:3052"));
         history.push("/board");
       }
