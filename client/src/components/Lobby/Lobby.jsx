@@ -86,8 +86,8 @@ const Loby = (props) => {
         gameName: findGameInput,
       }),
     }).then((data) => {
-      if (data.status === 405) {
-        alert("That username already exists. Please choose another one");
+      if (data.status === 404) {
+        alert("No game found");
       }
       if (data.status === 200) {
         props.getRoomName(findGameInput);

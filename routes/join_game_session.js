@@ -1,6 +1,8 @@
 const express = require("express");
 const db = require("../models/index");
-var io = require("socket.io")(3052);
+const {roomConnection} = require("../socketGameLogic/gameLogic")
+
+
 
 module.exports = (jsonParser, urlencoded) => {
   const router = express.Router();
@@ -9,19 +11,43 @@ module.exports = (jsonParser, urlencoded) => {
       return res.sendStatus(500);
     }
     db.Game.findAll({ where: { name: req.body.gameName } }).then((result) => {
-      console.log(result["dataValues"]);
+      //console.log(result[0]["dataValues"]);
+      if (!result[0]["dataValues"]) {
+        return res.sendStatus(404);
+      }
       if (result[0]["dataValues"].id) {
-        console.log("join route: ", req.body);
+        db.Session.findAll({
+          where: {
+            game_session_id: result[0]["dataValues"].id,
+            users_id: req.session.passport.user,
+          },
+        }).then((newQueryResult) => {
+          //console.log("this is newQueryResult:", newQueryResult);
+          if (newQueryResult[0]) {
+            //console.log("join route: ", req.body);
 
-        io.sockets.on("connection", (socket) => {
-          socket.on("joinRoom", (room) => {
-            console.log("loggin room: ", room);
-            socket.join(room);
-            io.to(room).emit("test log", "hello world!");
-          });
-        });
+            roomConnection()
 
-        res.sendStatus(200);
+            
+
+            res.sendStatus(200);
+          } else {
+            db.Session.create({
+              game_session_id: result[0]["dataValues"].id,
+              users_id: req.session.passport.user,
+              points: 0,
+            })
+              .then((result) => {
+                //console.log(result);
+                //console.log("join route: ", req.body);
+
+                roomConnection()
+
+                res.sendStatus(200);
+              })
+              .catch((err) => console.log("new error: ", err));
+          }
+        }).catch(err => console.log("another error: ",err))
       }
     });
   });
