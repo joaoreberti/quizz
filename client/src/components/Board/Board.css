@@ -1,0 +1,49 @@
+.item1 {
+  grid-area: header;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.item2 {
+  grid-area: settings;
+}
+.item3 {
+  grid-area: main;
+  
+}
+.item4 {
+  grid-area: chat;
+}
+.item5 {
+  grid-area: footer;
+}
+
+.item6 {
+  grid-area: user;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    "header header header header header header"
+    "settings main main main chat chat"
+    "user footer footer footer chat chat";
+  grid-gap: 10px;
+  background-color: #2196f3;
+  height: 100vh;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
+
+.user-avatar {
+  width: 150px;
+}
+
+.opponent-avatar{
+width: 100px;
+}

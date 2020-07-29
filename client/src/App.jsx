@@ -14,6 +14,11 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [socket, setSocket] = useState(null);
   const [roomName, setRoomName] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const getCurrentUser = (id) => {
+    setCurrentUser(id);
+  };
 
   const handleLogin = () => {
     setUser(true);
@@ -76,6 +81,7 @@ function App() {
             user={user}
             roomName={roomName}
             socket={socket}
+            currentUser={currentUser}
             component={Board}
           />
         )}
@@ -88,6 +94,7 @@ function App() {
             exact
             path="/profile"
             user={user}
+            getCurrentUser={getCurrentUser}
             component={UserProfile}
           />
         )}

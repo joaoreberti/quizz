@@ -16,6 +16,7 @@ const UserProfile = (props) => {
       .then((result) => result.json())
       .then((data) => {
         console.log(data);
+        props.getCurrentUser(data.id);
         setUsername(data.username);
         setAvatar_url(data.avatar_url);
         setSessionsList(data.currentGames);

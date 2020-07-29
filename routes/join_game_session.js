@@ -1,8 +1,6 @@
 const express = require("express");
 const db = require("../models/index");
-const {roomConnection} = require("../socketGameLogic/gameLogic")
-
-
+const { roomConnection } = require("../socketGameLogic/gameLogic");
 
 module.exports = (jsonParser, urlencoded) => {
   const router = express.Router();
@@ -21,33 +19,33 @@ module.exports = (jsonParser, urlencoded) => {
             game_session_id: result[0]["dataValues"].id,
             users_id: req.session.passport.user,
           },
-        }).then((newQueryResult) => {
-          //console.log("this is newQueryResult:", newQueryResult);
-          if (newQueryResult[0]) {
-            //console.log("join route: ", req.body);
+        })
+          .then((newQueryResult) => {
+            //console.log("this is newQueryResult:", newQueryResult);
+            if (newQueryResult[0]) {
+              //console.log("join route: ", req.body);
 
-            roomConnection()
+              roomConnection();
 
-            
-
-            res.sendStatus(200);
-          } else {
-            db.Session.create({
-              game_session_id: result[0]["dataValues"].id,
-              users_id: req.session.passport.user,
-              points: 0,
-            })
-              .then((result) => {
-                //console.log(result);
-                //console.log("join route: ", req.body);
-
-                roomConnection()
-
-                res.sendStatus(200);
+              res.sendStatus(200);
+            } else {
+              db.Session.create({
+                game_session_id: result[0]["dataValues"].id,
+                users_id: req.session.passport.user,
+                points: 0,
               })
-              .catch((err) => console.log("new error: ", err));
-          }
-        }).catch(err => console.log("another error: ",err))
+                .then((result) => {
+                  //console.log(result);
+                  //console.log("join route: ", req.body);
+
+                  roomConnection();
+
+                  res.sendStatus(200);
+                })
+                .catch((err) => console.log("new error: ", err));
+            }
+          })
+          .catch((err) => console.log("another error: ", err));
       }
     });
   });
